@@ -1,7 +1,6 @@
 from cProfile import label
 import random
 from numpy import number
-from sqlalchemy import true
 import tsplib95
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -24,10 +23,7 @@ def random_instance(n, seed, type, a = 2, b = 100):
             w = random.randint(a,b)
             G.add_edge(i, j, weight = w)
                      
-    pos = nx.spring_layout(G, seed=7) 
-    nx.draw_networkx_nodes(G, pos, node_size=300, node_color = 'green')
-    nx.draw_networkx_edges(G, pos, edgelist=[(u, v) for (u, v, d) in G.edges(data=True)], width=2)
-    #plt.show()
+
     return G
 
 def distance_matrix(graph):
@@ -40,19 +36,24 @@ def solution_print(graph, tour):
     for i in range(len(tour) - 1):
         edgelist.append((tour[i], tour[i + 1]))
     edgelist.append((tour[len(tour) - 1], tour[0]))
-    
-    pos = nx.spring_layout(graph, seed=7 )
-    #nx.draw_networkx_labels(graph, pos)
-    #nx.draw_networkx_nodes(graph,  pos, node_size=300, node_color = 'green')
-    #nx.draw_networkx_edges(graph, pos, edgelist=edgelist, width=2)
+    if len(nx.get_node_attributes(graph, 'coord')):
 
-    city_list =np.array(edgelist)
-    
-    nx.draw_networkx(graph, edgelist = edgelist)
-    #plt.scatter(city_list[:,0],city_list[:,1])
-    plt.plot()
+        nx.draw(graph, nx.get_node_attributes(graph, 'coord'), edgelist = edgelist, with_labels=True, node_color = 'green')
+    else:
+        pos = nx.spring_layout(graph, seed=7) 
+        nx.draw_networkx_nodes(graph, pos, node_size=300, node_color = 'green')
+        nx.draw_networkx_edges(graph, pos, edgelist=edgelist, width=2)
     plt.show()
 
+def graph_print(graph):
+    if len(nx.get_node_attributes(graph, 'coord')):
+        nx.draw(graph, nx.get_node_attributes(graph, 'coord'), with_labels=True, node_color = 'green')
+    else:
+        pos = nx.spring_layout(graph, seed=7) 
+        nx.draw_networkx_nodes(graph, pos, node_size=300, node_color = 'green')
+        nx.draw_networkx_edges(graph, pos, edgelist=[(u, v) for (u, v, d) in graph.edges(data=True)], width=2)
+
+    plt.show()
 
 def evaluate(graph, tour):
     edgelist = []
@@ -65,20 +66,35 @@ def evaluate(graph, tour):
         sum = sum + m[i[0] - 1][i[1] - 1]
     return sum
 
-
 def prd(graph, x, ref):
     print(100 * ((evaluate(graph, x) - ref) / ref),"%")
 
+
+def tests():
+    import os
+    directory = 'tsp'
+    for filename in os.listdir(directory):
+        f = os.path.join(directory, filename)
+        if os.path.isfile(f) and "tour"  not in f:
+            print(f)
+            p = read(f)
+            G = p.get_graph()
+            graph_print(G)
+
+tests()
 name = "ulysses16"
 p = read("tsp/"+str(name)+".tsp")
 G1 = p.get_graph()
 t = read("tsp/"+str(name)+".opt.tour")
 tour = t.tours[0]
-
-solution_print(G1, tour)
-
+#graph_print(G1)
+#solution_print(G1, tour)
 ref = evaluate(G1, tour)
 prd(G1, tour, ref)
+
+G2 = random_instance(16, 1414, "directed")
+#graph_print(G2)
+#solution_print(G2, tour)
 
 
 
