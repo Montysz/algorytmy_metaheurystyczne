@@ -18,12 +18,13 @@ def random_instance(n, seed, type, a = 2, b = 100):
     seed = seed^(a+b)^n
     random.seed(seed)
 
-    for i in range(1,n+1):
-        for j in range(i + 1,n+1):
-            w = random.randint(a,b)
-            G.add_edge(i, j, weight = w)
+    if type == "not_dirested":
+        for i in range(1,n+1):
+            for j in range(i + 1,n+1):
+                w = random.randint(a,b)
+                G.add_edge(i, j, weight = w)
+ 
                      
-
     return G
 
 def distance_matrix(graph):
@@ -36,23 +37,30 @@ def solution_print(graph, tour):
     for i in range(len(tour) - 1):
         edgelist.append((tour[i], tour[i + 1]))
     edgelist.append((tour[len(tour) - 1], tour[0]))
-    if len(nx.get_node_attributes(graph, 'coord')):
+
+    n = nx.get_node_attributes(graph, 'coord')
+    l = len(n)
+
+    if l > 0 and n[1] != None:
 
         nx.draw(graph, nx.get_node_attributes(graph, 'coord'), edgelist = edgelist, with_labels=True, node_color = 'green')
     else:
-        pos = nx.spring_layout(graph, seed=7) 
+        pos = nx.spring_layout(graph, seed=7, ) 
         nx.draw_networkx_nodes(graph, pos, node_size=300, node_color = 'green')
         nx.draw_networkx_edges(graph, pos, edgelist=edgelist, width=2)
     plt.show()
 
 def graph_print(graph):
-    if len(nx.get_node_attributes(graph, 'coord')):
+    n = nx.get_node_attributes(graph, 'coord')
+
+    l = len(n)
+
+    if l > 0 and n[1] != None:
         nx.draw(graph, nx.get_node_attributes(graph, 'coord'), with_labels=True, node_color = 'green')
     else:
         pos = nx.spring_layout(graph, seed=7) 
         nx.draw_networkx_nodes(graph, pos, node_size=300, node_color = 'green')
-        nx.draw_networkx_edges(graph, pos, edgelist=[(u, v) for (u, v, d) in graph.edges(data=True)], width=2)
-
+        nx.draw_networkx_edges(graph, pos, edgelist=[(u, v) for (u, v, d) in graph.edges(data=True)], width=0.5)
     plt.show()
 
 def evaluate(graph, tour):
@@ -69,7 +77,6 @@ def evaluate(graph, tour):
 def prd(graph, x, ref):
     print(100 * ((evaluate(graph, x) - ref) / ref),"%")
 
-
 def tests():
     import os
     directory = 'tsp'
@@ -81,20 +88,21 @@ def tests():
             G = p.get_graph()
             graph_print(G)
 
-tests()
-name = "ulysses16"
+#tests()
+name = "berlin52"
 p = read("tsp/"+str(name)+".tsp")
 G1 = p.get_graph()
+#graph_print(G1)
 t = read("tsp/"+str(name)+".opt.tour")
 tour = t.tours[0]
-#graph_print(G1)
+
 #solution_print(G1, tour)
 ref = evaluate(G1, tour)
 prd(G1, tour, ref)
 
-G2 = random_instance(16, 1414, "directed")
-#graph_print(G2)
-#solution_print(G2, tour)
+G2 = random_instance(52, 1414, "not_dirested")
+graph_print(G2)
+solution_print(G2, tour)
 
 
 
