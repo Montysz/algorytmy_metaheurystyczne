@@ -88,7 +88,7 @@ def tests():
             G = p.get_graph()
             graph_print(G)
 
-#tests()
+tests()
 name = "berlin52"
 p = read("tsp/"+str(name)+".tsp")
 G1 = p.get_graph()
