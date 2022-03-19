@@ -1,4 +1,3 @@
-from cProfile import label
 import random
 from numpy import number
 import tsplib95
@@ -28,9 +27,9 @@ def random_instance(n, seed, type, a = 2, b = 100):
     return G
 
 def distance_matrix(graph):
-    x = nx.to_numpy_matrix(graph, graph.nodes).getA()
-    for i in x:
-        print(i)
+    return nx.to_numpy_matrix(graph, graph.nodes).getA()
+    #for i in x:
+    #    print(i)
 
 def solution_print(graph, tour):
     edgelist = []
@@ -87,7 +86,7 @@ def tests():
             p = read(f)
             G = p.get_graph()
             graph_print(G)
-
+''' 
 tests()
 name = "berlin52"
 p = read("tsp/"+str(name)+".tsp")
@@ -103,6 +102,71 @@ prd(G1, tour, ref)
 G2 = random_instance(52, 1414, "not_dirested")
 graph_print(G2)
 solution_print(G2, tour)
+'''
+name = "berlin52"
+p = read("tsp/"+str(name)+".tsp")
+G1 = p.get_graph()
+
+t = read("tsp/"+str(name)+".opt.tour")
+tour = t.tours[0]
+
+def kRandom(k, G):
+    Graph = distance_matrix(G)
+    bestAns = 1e9
+    bestTour= []
+    for i in range(k):
+        ans = np.random.permutation(range(1, len(Graph[0])+1))
+
+        curAns = evaluate(G, ans)
+        if(bestAns > curAns):
+            bestTour = ans
+            bestAns = curAns
+    return bestAns, bestTour
+'''
+
+kRandomAns, kRandomTour = kRandom(10000, G1)
+
+print(kRandomTour)
+
+ref = evaluate(G1, tour)
+prd(G1, tour, kRandomAns)
+
+solution_print(G1, tour)
+solution_print(G1, kRandomTour)
+
+'''
+def notYetVisited(tab):
+    ans = False
+    for i in range(len(tab)):
+        if(tab[i] == 0):
+            ans = True
+            break
+    return ans
+    
+def nearestNeighbour(s, G):
+    Graph = distance_matrix(G)
+    visited = [0 for i in range(len(Graph[0])+1)]
+    visited[s] = 1
+    visited[0] = 1
+    solution = []
+    while(notYetVisited(visited)):
+        curEdges =  [(Graph[s-1][i],i+1) for i in range(len(Graph[0]))]
+
+        sortedEdges = sorted(curEdges, key=lambda k: k[0])
+        
+        for i in range(1, len(Graph[0])+1):
+            if not visited[sortedEdges[i][1]]:
+                visited[sortedEdges[i][1]] = True
+                solution.append(sortedEdges[i][1])
+                break
+    return solution
 
 
+
+nearestNeighbourAns = nearestNeighbour(2, G1)
+ref = evaluate(G1, nearestNeighbourAns)
+prd(G1, tour, ref)
+
+solution_print(G1, tour)
+solution_print(G1, nearestNeighbourAns)
 
