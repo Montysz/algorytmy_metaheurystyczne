@@ -98,7 +98,7 @@ def tests():
 
 
 
-def kRandom(k, G):
+def kRandom(G, k):
     Graph = distance_matrix(G)
     bestAns = 1e9
     bestTour= []
@@ -120,7 +120,7 @@ def notYetVisited(tab):
             break
     return ans
     
-def nearestNeighbour(s, G):
+def nearest_neighbour(G, s):
     Graph = distance_matrix(G)
     visited = [0 for i in range(len(Graph[0])+1)]
     visited[s] = 1
@@ -139,6 +139,34 @@ def nearestNeighbour(s, G):
                 break
     return solution
 
+def nearest_neighbour_extended(G):
+    Graph = distance_matrix(G)
+    best_sol = 1e9
+    for s in range(1, len(Graph[0]) + 1):
+        visited = [0 for i in range(len(Graph[0])+1)]
+        visited[s] = 1
+        visited[0] = 1
+        best_ans = None
+        solution = []
+        solution.append(s)
+        while(notYetVisited(visited)):
+            curEdges =  [(Graph[s-1][i],i+1) for i in range(len(Graph[0]))]
+
+            sortedEdges = sorted(curEdges, key=lambda k: k[0])
+            
+            for i in range(1, len(Graph[0])+1):
+                if not visited[sortedEdges[i][1]]:
+                    visited[sortedEdges[i][1]] = True
+                    solution.append(sortedEdges[i][1])
+                    break
+        cur_sol = evaluate(G, solution)
+        if cur_sol < best_sol:
+            best_sol = cur_sol
+            best_ans = solution
+            print(best_sol)
+    return best_ans
+
+
 name = "berlin52"
 p = read("tsp/"+str(name)+".tsp")
 G = p.get_graph()
@@ -146,12 +174,12 @@ G = p.get_graph()
 t = read("tsp/"+str(name)+".opt.tour")
 opt = t.tours[0]
 
-kr = kRandom(2, G)[1]
-n = nearestNeighbour(9, G)
-print(n)
-print(len(n))
-solution_print(G,n)
-
+kr = kRandom(G, 2)[1]
+n = nearest_neighbour(G, 5)
+ne = nearest_neighbour_extended(G)
+#solution_print(G,n)
 
 prd(G, kr, evaluate(G,opt))
 prd(G, n, evaluate(G,opt))
+prd(G, ne, evaluate(G,opt))
+
