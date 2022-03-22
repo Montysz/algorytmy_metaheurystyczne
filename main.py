@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import pylab
-import cyth 
+#import cyth 
 
 
 
@@ -43,7 +43,7 @@ def solution_print(graph, tour):
     for i in range(len(tour) - 1):
         edgelist.append((tour[i], tour[i + 1]))
     edgelist.append((tour[len(tour) - 1], tour[0]))
-
+    print(edgelist)
     n = nx.get_node_attributes(graph, 'coord')
     l = len(n)
 
@@ -97,29 +97,6 @@ def tests():
             graph_print(G)
 
 
-''' 
-tests()
-name = "berlin52"
-p = read("tsp/"+str(name)+".tsp")
-G1 = p.get_graph()
-#graph_print(G1)
-t = read("tsp/"+str(name)+".opt.tour")
-tour = t.tours[0]
-
-#solution_print(G1, tour)
-ref = evaluate(G1, tour)
-prd(G1, tour, ref)
-
-G2 = random_instance(52, 1414, "not_dirested")
-graph_print(G2)
-solution_print(G2, tour)
-'''
-name = "berlin52"
-p = read("tsp/"+str(name)+".tsp")
-G1 = p.get_graph()
-
-t = read("tsp/"+str(name)+".opt.tour")
-tour = t.tours[0]
 
 def kRandom(k, G):
     Graph = distance_matrix(G)
@@ -133,27 +110,6 @@ def kRandom(k, G):
             bestTour = ans
             bestAns = curAns
     return bestAns, bestTour
-
-'''
-s = time.time()
-kRandomAns, kRandomTour = kRandom(99999, G1)
-print(kRandomAns, kRandomTour)
-e = time.time()
-print(e - s, "python")
-ref = evaluate(G1, tour)
-prd(G1, tour, kRandomAns)
-
-s = time.time()
-kRandomAns, kRandomTour = cyth.kRandom(99999, G1, distance_matrix(G1))
-print(kRandomAns, kRandomTour)
-e = time.time()
-print(e - s, "cython")
-ref = evaluate(G1, tour)
-prd(G1, tour, kRandomAns)
-
-solution_print(G1, kRandomTour)
-'''
-
 
 
 def notYetVisited(tab):
@@ -170,6 +126,7 @@ def nearestNeighbour(s, G):
     visited[s] = 1
     visited[0] = 1
     solution = []
+    solution.append(s)
     while(notYetVisited(visited)):
         curEdges =  [(Graph[s-1][i],i+1) for i in range(len(Graph[0]))]
 
@@ -182,25 +139,19 @@ def nearestNeighbour(s, G):
                 break
     return solution
 
+name = "berlin52"
+p = read("tsp/"+str(name)+".tsp")
+G = p.get_graph()
 
-s = time.time()
-nearestNeighbourAns = nearestNeighbour(2, G1)
-e = time.time() 
-print(e-s)
+t = read("tsp/"+str(name)+".opt.tour")
+opt = t.tours[0]
 
-ref = evaluate(G1, nearestNeighbourAns)
-prd(G1, tour, ref)
-
-s = time.time()
-nearestNeighbourAns = cyth.nearestNeighbour(2, G1, distance_matrix(G1))
-e = time.time() 
-print(e-s)
-
+kr = kRandom(2, G)[1]
+n = nearestNeighbour(9, G)
+print(n)
+print(len(n))
+solution_print(G,n)
 
 
-ref = evaluate(G1, nearestNeighbourAns)
-prd(G1, tour, ref)
-
-#solution_print(G1, tour)
-#solution_print(G1, nearestNeighbourAns)
-
+prd(G, kr, evaluate(G,opt))
+prd(G, n, evaluate(G,opt))
