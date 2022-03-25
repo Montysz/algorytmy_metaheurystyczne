@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import pylab
-#import cyth 
+import cyth
+import resource
 
 
 
@@ -143,28 +144,80 @@ def test_all():
                 res.write(f"{evaluate(G,to)}    ")
                 res.write(f"{filename}          \n")
 
-def test_random(type ="Symmetric",a = 2, b = 300, seed = random.randint(0,1000000)):
-    with open(f"results/test_random{type}_{a}-{b}_{seed}.txt", "w") as res:
-        res.write(f"kRandom     nNeighbour   nNeighbour_ext  two_opt \n")
- 
-        for i in range(a, b):
-            print(f"{i}/{b}")
-            G = random_instance(i, seed, type, a = 2, b = 100)
-            kr = kRandom(G, 1000)[1]
-            print("kRandom")
-            n = nearest_neighbour(G, 2)
-            print("nearest_neighbour")
-            ne = nearest_neighbour_extended(G)
-            print("nearest_neighbour_extended")
-            to = two_opt(G, kr.copy())
-            print("two_opt")
 
-            res.write(f"{evaluate(G,kr)}    ")
-            res.write(f"{evaluate(G,n)}    ")
-            res.write(f"{evaluate(G,ne)}    ")
-            res.write(f"{evaluate(G,to)}    ")
-            res.write(f"{i}          \n")  
-    return          
+def test_random(type ="Symmetric",a = 2, b = 30, k = 3):
+    kr_time = 0
+    kr_space = 0
+    kr_res = 0
+    n_time = 0
+    n_space = 0
+    n_res = 0
+    ne_time = 0
+    ne_space = 0
+    ne_res = 0
+    to_time = 0
+    to_space = 0
+    to_res = 0
+    
+
+
+    
+    with open(f"results/test_random{type}_{a}-{b}.txt", "w") as res:
+        res.write(f"kRandom     nNeighbour   nNeighbour_ext  two_opt \n")
+
+        for i in range(a, b+1):
+            for j in range(k):
+                seed = random.randint(0,1000000)
+                print(f"{i}/{b}")
+
+                G = random_instance(i, seed, type, 2, 100)
+                
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                kr = kRandom(G, 1000)[1]
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                kr_time += time_end - time_start
+                kr_space += space_end - space_start
+                kr_res += evaluate(G,kr)
+                print("kRandom")
+                
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                n = nearest_neighbour(G, 2)
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                n_time += time_end - time_start
+                n_space += space_end - space_start
+                n_res += evaluate(G,n)
+                print("nearest_neighbour")
+
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0        
+                ne = nearest_neighbour_extended(G)
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                ne_time += time_end - time_start
+                ne_space += space_end - space_start
+                ne_res += evaluate(G,ne)
+                print("nearest_neighbour_extended")
+                
+                
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                to = two_opt(G, kr.copy())
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                to_time += time_end - time_start
+                to_space += space_end - space_start
+                to_res += evaluate(G,to)
+                print("two_opt")
+
+            res.write(f"{kr_res / k}/{kr_time / k}   ")
+            res.write(f"{n_res / k}/{n_time / k}    ")
+            res.write(f"{ne_res / k}/{ne_time / k}    ")
+            res.write(f"{to_res / k}/{to_time / k}    ")
+            res.write(f"{i}          \n")     
 
 
 
@@ -238,8 +291,8 @@ def two_opt(G, route):
         for i in range(1, len(route)):
             for j in range(i+2, len(route)):
                 new_route = route.copy()
-                new_route[i:j] = route[j-1:i-1:-1] # this is the 2woptSwap
-                if cost(Graph, new_route) < cost(Graph, best):  # what should cost be?
+                new_route[i:j] = route[j-1:i-1:-1]
+                if cost(Graph, new_route) < cost(Graph, best):
                     best = new_route
                     improved = True
         route = best
