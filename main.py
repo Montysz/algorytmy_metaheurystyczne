@@ -118,7 +118,7 @@ def evaluate(graph, tour):
 def prd(graph, x, ref):
     print(f"{100*((evaluate(graph,x)-ref)/ref)}%")
 
-def tests():
+def test_all():
     import os
     directory = 'tsp'
     for filename in os.listdir(directory):
@@ -127,7 +127,44 @@ def tests():
             print(f)
             p = read(f)
             G = p.get_graph()
-            graph_print(G)
+            kr = kRandom(G, 1000)[1]
+            print("kRandom")
+            n = nearest_neighbour(G, 2)
+            print("nearest_neighbour")
+            ne = nearest_neighbour_extended(G)
+            print("nearest_neighbour_extended")
+            to = two_opt(G, kr.copy())
+            print("two_opt")
+            with open("results/test_all.txt", "a") as res:
+                print(evaluate(G,ne))
+                res.write(f"{evaluate(G,kr)}    ")
+                res.write(f"{evaluate(G,n)}    ")
+                res.write(f"{evaluate(G,ne)}    ")
+                res.write(f"{evaluate(G,to)}    ")
+                res.write(f"{filename}          \n")
+
+def test_random(type ="Symmetric",a = 2, b = 300, seed = random.randint(0,1000000)):
+    with open(f"results/test_random{type}_{a}-{b}_{seed}.txt", "w") as res:
+        res.write(f"kRandom     nNeighbour   nNeighbour_ext  two_opt \n")
+ 
+        for i in range(a, b):
+            print(f"{i}/{b}")
+            G = random_instance(i, seed, type, a = 2, b = 100)
+            kr = kRandom(G, 1000)[1]
+            print("kRandom")
+            n = nearest_neighbour(G, 2)
+            print("nearest_neighbour")
+            ne = nearest_neighbour_extended(G)
+            print("nearest_neighbour_extended")
+            to = two_opt(G, kr.copy())
+            print("two_opt")
+
+            res.write(f"{evaluate(G,kr)}    ")
+            res.write(f"{evaluate(G,n)}    ")
+            res.write(f"{evaluate(G,ne)}    ")
+            res.write(f"{evaluate(G,to)}    ")
+            res.write(f"{i}          \n")  
+    return          
 
 
 
@@ -211,6 +248,10 @@ def two_opt(G, route):
     return best
 
 
+test_random()
+#test_all()
+
+
 name = "st70"
 p = read("tsp/"+str(name)+".tsp")
 G = p.get_graph()
@@ -218,7 +259,7 @@ G = p.get_graph()
 t = read("tsp/"+str(name)+".opt.tour")
 opt = t.tours[0]
 
-
+'''
 
 kr = kRandom(G, 100)[1]
 print(evaluate(G,kr))
@@ -236,7 +277,7 @@ solution_print(G, kr, 'kr.png')
 solution_print(G, n, 'n.png')
 solution_print(G, ne, 'ne.png')
 solution_print(G, to, 'to.png')
-'''
+
 #    random_instance(n, seed, type, a = 2, b = 100):
 #    Symmetric
 #    EUC_2D
