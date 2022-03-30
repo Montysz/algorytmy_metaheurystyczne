@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+
+\usepackage{polski}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{algorithm2e}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\def \hfillx {\hspace*{-\textwidth} \hfill}
+\graphicspath{ {./images/} }
+
+\title{Algorytmy Metaheurystyczne\\\large Problem Komiwojażera}
+
+\author{
+        Szymon Brzeziński - 254611\\
+        Paweł Prusisz - 254642
+        }
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Opis}
+Tematem pracy jest przetestowanie oraz opis niektórych zależności między algorytmami rozwiązującymi instancje problemu komiwojażera.
+\\Badane instancje są wczytywane z biblioteki TSPLIB oraz generowane losowo.
+\\Typy instancji:
+\begin{enumerate}
+    \item Symetryczne
+    \item Asymetryczne
+    \item Euklidesowe
+\end{enumerate}
+Badane algorytmy:
+\begin{enumerate}
+    \item k-random
+    \item nearest neighbour
+    \item extended nearest neighbour
+    \item two-opt
+\end{enumerate}
+\section{Wyniki}
+\subsection{Jakość rozwiązań }
+Pierwszą badaną zależnością jest porównanie rozwiązań zwróconych przez algorytmy względem rozmiaru problemu. W tym celu dla każdego badanego rozmiaru  $n$ zostały wygenerowane $k$ różnych instancji. Długość zwróconej ścieżki oraz czas działania algorytmów został uśredniony dla każdego n.    
+
+\end{document}
