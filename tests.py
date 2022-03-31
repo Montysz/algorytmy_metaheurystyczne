@@ -3,6 +3,7 @@ import resource
 import time
 import random
 import numpy as np
+import os
 
 from algorithms import *
 from problem import *
@@ -48,7 +49,7 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     to_space = 0
     to_res = 0  
     with open(f"results/test_random_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two_opt_lenght two_opt-time   n\n")
+        res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -139,4 +140,64 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
             res.write(f"{kr_res / k}    ")
             res.write(f"{ne_res / k}     ")
             res.write(f"{to_res / k}     ")
-            res.write(f"{i}          \n") 
+            res.write(f"{i}          \n")
+
+def test_compare(path, dir_name,  to = False, n = False, ne = False, kr = False, opt_path = None, n_start = False, kr_k = False):
+
+    
+    dir_path = os.getcwd() + f"/tour_visual/{dir_name}"
+    try: os.mkdir(dir_path)
+    except OSError: print("fail")
+    problem_name = f"{path[path.find('/')+1:path.find('.')]}"
+    p = read(path)
+    G = p.get_graph()
+    alg = {}
+
+
+    if n_start == False : n_start = random.randint(1,(G.number_of_nodes()))
+    if kr_k == False : kr_k = 5000
+
+    if opt_path: 
+        opt_tour = read(opt_path).tours[0]
+        solution_print(G, opt_tour.copy(),p, path=dir_path+"/"+problem_name+"_opt-sol.png")
+        alg['opt'] = (evaluate(G, opt_tour))
+        
+    if to:
+        #start_tour = (np.random.permutation( [*range(1,(G.number_of_nodes())),1])
+        start_tour = []
+        start, end = 1, G.number_of_nodes()
+        start_tour.extend(range(start, end))
+        start_tour.append(end)
+        start_tour = np.random.permutation(start_tour)
+
+        to = two_opt(G , start_tour.copy())
+        solution_print(G, to.copy(),p, path=dir_path+"/"+problem_name+"_to-sol.png")
+        solution_print(G, start_tour.copy(), p, path=dir_path+"/"+problem_name+"_to_start.png")
+        alg['to']  = (evaluate(G, to))
+    if n:
+        n = nearest_neighbour(G , n_start)
+        solution_print(G, n.copy(),p, path=dir_path+"/"+problem_name+"_n-sol.png")
+        alg['n'] = (evaluate(G, n))
+    if ne:
+        ne = nearest_neighbour_extended(G)
+        solution_print(G, ne.copy(),p, path=dir_path+"/"+problem_name+"_ne-sol.png")
+        alg['ne'] = (evaluate(G, ne))
+    if kr:
+        kr = kRandom(G, kr_k)
+        
+        solution_print(G, kr[1].copy(),p, path=dir_path+"/"+problem_name+"_kr-sol.png")
+        alg['kr'] = (evaluate(G, kr[1]))
+    #print(alg)
+
+    #plots part
+    names = list(alg.keys())
+    values = list(alg.values())
+    plt.pyplot.clf()
+    plt.pyplot.bar(range(len(alg)), values, tick_label=names)
+    
+    
+    dir_path = os.getcwd() + f"/plots/{dir_name}"
+    try: os.mkdir(dir_path)
+    except OSError: print("fail")   
+    
+    plt.pyplot.savefig(f"{dir_path}/{problem_name}")

@@ -83,3 +83,29 @@ def evaluate(graph, tour):
 
 def prd(graph, x, ref):
     print(f"{100*((evaluate(graph,x)-ref)/ref)}%")
+
+def solution_print(graph, tour, p, path='here.png' ):
+    edgelist = []
+    
+    if p.edge_weight_format == "FULL_MATRIX":
+        for i in range(len(tour) - 1):
+            edgelist.append((tour[i]-1, tour[i + 1]-1))
+        edgelist.append( (tour[len(tour) - 1]-1, tour[0]-1) )
+    else:
+        for i in range(len(tour) - 1):
+            edgelist.append((tour[i], tour[i + 1]))
+        edgelist.append( (tour[len(tour) - 1], tour[0]) )
+    #print(edgelist)
+    n = nx.get_node_attributes(graph, 'coord')
+    l = len(n)
+    
+
+    if l > 0 and n[1] != None:
+        nx.draw(graph, nx.get_node_attributes(graph, 'coord'), edgelist = edgelist, with_labels=True, node_color = 'green')
+    else:
+
+        pos = nx.spring_layout(graph, seed=7, ) 
+        nx.draw_networkx_nodes(graph, pos, node_size=300, node_color = 'green')
+        nx.draw_networkx_edges(graph, pos, edgelist=edgelist, width=2)
+    plt.pyplot.savefig(path) 
+    #plt.show()
