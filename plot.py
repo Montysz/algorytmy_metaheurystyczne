@@ -34,13 +34,10 @@ def plot_make(data, dir_name, x = 'n'):
     try: os.mkdir(path)
     except OSError: print("fail")
 
-    keys = data
-    
     for y in data.keys():
         if y != x: 
             plt.plot((data[x]), (data[y]))
             plt.suptitle(f"{y}")
-            
             plt.savefig(f"{path}/{y}")          
             plt.clf()  
     for y in data.keys():
@@ -58,8 +55,14 @@ def plot_make(data, dir_name, x = 'n'):
             plt.suptitle(f"lenght")
             plt.savefig(f"{path}/lenght")                  
     plt.clf()
-
     return
+def plot_all():
+    directory = 'results'
+    for filename in os.listdir(directory):
+        data = data_make(directory+'/'+filename)
+        plot_make(data,filename)
 
-data = data_make("results/test_random_Symmetric_2-100.txt")
-plot_make(data,"test_random_Symmetric_2-100.txt")
+
+plot_all()
+#data = data_make("results/test_random_time_Symmetric_2-100.txt")
+#plot_make(data,"test_random_time_Symmetric_2-100.txt")

@@ -1,5 +1,6 @@
 from problem  import *
 import numpy as np
+import time
 def kRandom(G, k):
     Graph = distance_matrix(G)
     bestAns = 1e9
@@ -75,3 +76,39 @@ def two_opt(G, route):
     for i in range(len(best)):
         best[i] = best[i] + 1
     return best
+
+def two_opt_time(G, route, t):
+    best = route
+    for i in range(len(best)):
+        best[i] = best[i] - 1
+    Graph = distance_matrix(G)
+    start = time.time() 
+    while True:
+        for i in range(1, len(route)):
+            for j in range(i+2, len(route)):
+                new_route = route.copy()
+                new_route[i:j] = route[j-1:i-1:-1]
+                if cost(Graph, new_route) < cost(Graph, best):
+                    best = new_route
+        route = best
+        if time.time() - start > t:
+            break 
+    for i in range(len(best)):
+        best[i] = best[i] + 1
+    return best
+
+def kRandom_time(G, t):
+    Graph = distance_matrix(G)
+    bestAns = 1e9
+    bestTour= []
+    start = time.time() 
+    while True:
+        ans = np.random.permutation(range(1, len(Graph[0])+1))
+
+        curAns = evaluate(G, ans)
+        if(bestAns > curAns):
+            bestTour = ans
+            bestAns = curAns
+        if time.time() - start > t:
+            break 
+    return bestAns, bestTour
