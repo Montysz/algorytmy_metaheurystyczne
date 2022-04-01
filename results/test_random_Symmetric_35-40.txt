@@ -1,0 +1,2 @@
+kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   n
+1236.6 0.31292487059999985   1742.1 0.0006433809999634831    1451.3 0.032522901199968146    381.4 0.23497573640001973    35          
