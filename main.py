@@ -64,19 +64,24 @@ def main():
         if "-path" in  sys.argv: arg_dict['path'] = (sys.argv[sys.argv.index("-path") + 1])
         if "-dir" in  sys.argv: arg_dict['dir_name'] = (sys.argv[sys.argv.index("-dir") + 1])
         if "-opt" in  sys.argv: arg_dict['opt_path'] = (sys.argv[sys.argv.index("-opt") + 1])
+        if "-opt_val" in  sys.argv: arg_dict['opt_val'] = (sys.argv[sys.argv.index("-opt_val") + 1])
 
         if "-to" in  sys.argv: arg_dict['to'] = True
         if "-n" in  sys.argv: arg_dict['n'] = True
         if "-ne" in  sys.argv: arg_dict['ne'] = True
         if "-kr" in  sys.argv: arg_dict['kr'] = True
+        if "-tb" in  sys.argv: arg_dict['tb'] = True
 
         if "-n_start" in  sys.argv: arg_dict['n_start'] = int(sys.argv[sys.argv.index("-n_start") + 1])
         if "-kr_k" in  sys.argv: arg_dict['kr_k'] = int(sys.argv[sys.argv.index("-kr_k") + 1])
+        if "-tb_size" in  sys.argv: arg_dict['tb_size'] = int(sys.argv[sys.argv.index("-tb_size") + 1])
+        if "-tb_iter" in  sys.argv: arg_dict['tb_iter'] = int(sys.argv[sys.argv.index("-tb_iter") + 1])
+
         print(arg_dict)
         test_compare(**arg_dict)
     
 
-#python3 main.py compare -path tsp/att48.tsp -dir att48 -opt tsp/att48.opt.tour -to -n -ne -kr
+#python3 main.py compare -path tsp/att48.tsp -dir att48 -opt_val 12345 -to -n -ne -kr -tb
 #python3 main.py random -a 35 -b 40 c-3 k-7 -type Symmetric
 
 

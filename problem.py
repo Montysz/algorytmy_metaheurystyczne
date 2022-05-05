@@ -83,6 +83,9 @@ def evaluate(graph, tour):
 
 def prd(graph, x, ref):
     print(f"{100*((evaluate(graph,x)-ref)/ref)}%")
+    
+def prdVal(val, ref):
+    return 100*((val-ref)/ref)
 
 def solution_print(graph, tour, p, path='here.png' ):
     edgelist = []

@@ -8,6 +8,7 @@ import os
 from algorithms import *
 from problem import *
 
+from tabu import *
 
 
 def test_all():
@@ -47,9 +48,12 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     ne_res = 0
     to_time = 0
     to_space = 0
-    to_res = 0  
+    to_res = 0
+    tb_time = 0
+    tb_space = 0
+    tb_res = 0  
     with open(f"results/test_random_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   n\n")
+        res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -98,10 +102,21 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 to_res += evaluate(G,to)
                 #print("two_opt")
 
+
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                tb = tabuSetup(G = G)
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                tb_time += time_end - time_start
+                tb_space += space_end - space_start
+                tb_res += evaluate(G,tb)
+
             res.write(f"{kr_res / k} {kr_time / k}   ")
             res.write(f"{n_res / k} {n_time / k}    ")
             res.write(f"{ne_res / k} {ne_time / k}    ")
             res.write(f"{to_res / k} {to_time / k}    ")
+            res.write(f"{tb_res / k} {tb_time / k}    ")
             res.write(f"{i}          \n") 
 
 
@@ -142,7 +157,7 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
             res.write(f"{to_res / k}     ")
             res.write(f"{i}          \n")
 
-def test_compare(path, dir_name,  to = False, n = False, ne = False, kr = False, opt_path = None, n_start = False, kr_k = False):
+def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, tb = False, opt_val = None ,opt_path = None, n_start = False, kr_k = False, tb_size = 7, tb_iter = 100):
 
     
     dir_path = os.getcwd() + f"/tour_visual/{dir_name}"
@@ -161,7 +176,8 @@ def test_compare(path, dir_name,  to = False, n = False, ne = False, kr = False,
         opt_tour = read(opt_path).tours[0]
         solution_print(G, opt_tour.copy(),p, path=dir_path+"/"+problem_name+"_opt-sol.png")
         alg['opt'] = (evaluate(G, opt_tour))
-        
+    if opt_val:
+        alg['opt'] = int(opt_val)
     if to:
         #start_tour = (np.random.permutation( [*range(1,(G.number_of_nodes())),1])
         start_tour = []
@@ -174,20 +190,38 @@ def test_compare(path, dir_name,  to = False, n = False, ne = False, kr = False,
         solution_print(G, to.copy(),p, path=dir_path+"/"+problem_name+"_to-sol.png")
         solution_print(G, start_tour.copy(), p, path=dir_path+"/"+problem_name+"_to_start.png")
         alg['to']  = (evaluate(G, to))
+        if alg['opt']:
+            print("to:", prdVal(alg['to'], alg['opt']))
+
     if n:
         n = nearest_neighbour(G , n_start)
         solution_print(G, n.copy(),p, path=dir_path+"/"+problem_name+"_n-sol.png")
         alg['n'] = (evaluate(G, n))
+        if alg['opt']:
+            print("n:", prdVal(alg['n'], alg['opt']))
     if ne:
         ne = nearest_neighbour_extended(G)
         solution_print(G, ne.copy(),p, path=dir_path+"/"+problem_name+"_ne-sol.png")
         alg['ne'] = (evaluate(G, ne))
+        if alg['opt']:
+            print("ne:", prdVal(alg['ne'], alg['opt']))
     if kr:
         kr = kRandom(G, kr_k)
         
         solution_print(G, kr[1].copy(),p, path=dir_path+"/"+problem_name+"_kr-sol.png")
         alg['kr'] = (evaluate(G, kr[1]))
-    #print(alg)
+        if alg['opt']:
+            print("kr:", prdVal(alg['kr'], alg['opt']))
+            
+    if tb:
+        tb = tabuSetup(path=path, iterations = tb_iter, size = tb_size)
+
+        solution_print(G, tb.copy(),p, path=dir_path+"/"+problem_name+"_tb-sol.png")
+        alg['tb'] = (evaluate(G, tb))
+        if alg['opt']:
+            print("tabu:", prdVal(alg['tb'], alg['opt']))
+    
+    print(alg)
 
     #plots part
     names = list(alg.keys())

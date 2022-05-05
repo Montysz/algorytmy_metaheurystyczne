@@ -141,41 +141,18 @@ def tabuSearch(firstSolution, dist, dict, iters, size):
     return bestSolutionEver, bestCost
 
 
-if __name__ == "__main__":
+def tabuSetup(iterations = 100, size = 7, path = None, G = None):
     
-    #name = "st70"
-    #name = "gr48"
-    name = "bays29"
+    if path:
+        p = read(path)
 
-    p = read("tsp/"+str(name)+".tsp")
-    G = p.get_graph()
-
-    t = read("tsp/"+str(name)+".opt.tour")
-    opt = t.tours[0]
+    if not G:
+        G = p.get_graph()
 
     dict = generateNeighbours(distance_matrix(G))
 
     firstSolution, dist = generateFirstSolution(dict)
-    iterations = 66
-    size = 7
-    
-    kr = kRandom(G, 1000)[1]
-    print("kRandom")
-    print(evaluate(G, kr))
-    n = nearest_neighbour(G, 1)
-    print("nearest_neighbour")
-    print(evaluate(G, n))
-    ne = nearest_neighbour_extended(G)
-    print("nearest_neighbour_extended")
-    print(evaluate(G, ne))
-    to = two_opt(G, ne.copy())
-    print("two opt")
-    print(evaluate(G, firstSolution[:-1]))
-    
-
     
     bestSol, bestCost = tabuSearch(firstSolution, dist, dict, iterations, size)
     
-    print(f"Optymalna\n{evaluate(G, opt)}")
-    print(f"Tabu\n{bestCost}")
-    prd(G, bestSol, evaluate(G, opt))
+    return bestSol[:-1]
