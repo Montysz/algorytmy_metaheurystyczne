@@ -14,12 +14,23 @@ from algorithms import *
 from tests import *
 from problem import *
 import os
-  
+
+
+
+
+tabuListTest()
+
+exit()
+#test_random(type ="Symmetric",a = 10, b = 50, c = 5, k = 10)
+#test_random(type ="Asymmetric",a = 10, b = 50, c = 5, k = 10)
+#test_random(type ="EUC_2D",a = 10, b = 50, c = 5, k = 10)
+
 
 #test_all()
-#test_random_time(type ="Symmetric",a = 2, b = 150, c = 5, k = 10)
-#test_random_time(type ="Asymmetric",a = 2, b = 150, c = 5, k = 10)
-#test_random_time(type ="EUC_2D",a = 2, b = 150, c = 5, k = 10)
+
+#test_random_time(type ="Symmetric",a = 10, b = 50, c = 5, k = 10)
+#test_random_time(type ="Asymmetric",a = 10, b = 50, c = 5, k = 10)
+#test_random_time(type ="EUC_2D",a = 10, b = 50, c = 5, k = 10)
 
 #test_random(type ="Symmetric",a = 2, b = 100, c = 5, k = 10)
 #test_random(type ="Asymmetric",a = 2, b = 100, c = 5, k = 10)
@@ -83,7 +94,17 @@ def main():
 
 #python3 main.py compare -path tsp/att48.tsp -dir att48 -opt_val 12345 -to -n -ne -kr -tb
 #python3 main.py random -a 35 -b 40 c-3 k-7 -type Symmetric
+#python3 main.py compare -path tsp/att48.tsp -dir att48 -opt_val 10628 -to -ne -tb
 
 
+#test_all()
+#test_random_time(type ="Symmetric",a = 2, b = 150, c = 5, k = 10)
+#test_random_time(type ="Asymmetric",a = 2, b = 150, c = 5, k = 10)
+#test_random_time(type ="EUC_2D",a = 2, b = 150, c = 5, k = 10)
+
+
+#test_random(type ="Asymmetric",a = 2, b = 100, c = 5, k = 10)
+#test_random(type ="EUC_2D",a = 2, b = 100, c = 5, k = 10)
+#test_random()
 if __name__ == "__main__":
     main()

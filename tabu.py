@@ -140,6 +140,55 @@ def tabuSearch(firstSolution, dist, dict, iters, size):
 
     return bestSolutionEver, bestCost
 
+def tabuSearch_time(firstSolution, dist, dict, t, size):
+    count = 1
+    solution = firstSolution
+    tabuList = list()
+    bestCost = dist
+    bestSolutionEver = solution
+
+    bestAns = 1e9
+    bestTour= []
+    start = time.time() 
+
+    while True:
+        if time.time() - start > t:
+            break 
+        neighborhood = findNeighborhood(solution, dict)
+        bestSolutionIndex = 0
+        bestSolution = neighborhood[bestSolutionIndex]
+        bestCostIndex = len(bestSolution) - 1
+
+        found = False
+        while not found:
+            
+            i = 0
+            while i < len(bestSolution):
+
+                if bestSolution[i] != solution[i]:
+                    firstExchangeNode = bestSolution[i]
+                    secondExchangeNode = solution[i]
+                    break
+                i = i + 1
+
+            if [firstExchangeNode, secondExchangeNode] not in tabuList and [secondExchangeNode, firstExchangeNode] not in tabuList:
+                tabuList.append([firstExchangeNode, secondExchangeNode])
+                found = True
+                solution = bestSolution[:-1]
+                cost = neighborhood[bestSolutionIndex][bestCostIndex]
+                if cost < bestCost:
+                    bestCost = cost
+                    bestSolutionEver = solution
+            else:
+                bestSolutionIndex = bestSolutionIndex + 1
+                bestSolution = neighborhood[bestSolutionIndex]
+
+        if len(tabuList) >= size:
+            tabuList.pop(0)
+
+        count = count + 1
+    
+    return bestSolutionEver, bestCost
 
 def tabuSetup(iterations = 100, size = 7, path = None, G = None):
     
@@ -154,5 +203,21 @@ def tabuSetup(iterations = 100, size = 7, path = None, G = None):
     firstSolution, dist = generateFirstSolution(dict)
     
     bestSol, bestCost = tabuSearch(firstSolution, dist, dict, iterations, size)
+    
+    return bestSol[:-1]
+
+def tabuSetup2(time = 100, size = 7, path = None, G = None):
+    
+    if path:
+        p = read(path)
+
+    if not G:
+        G = p.get_graph()
+
+    dict = generateNeighbours(distance_matrix(G))
+
+    firstSolution, dist = generateFirstSolution(dict)
+    
+    bestSol, bestCost = tabuSearch_time(firstSolution, dist, dict, time, size)
     
     return bestSol[:-1]

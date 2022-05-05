@@ -53,16 +53,18 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     tb_space = 0
     tb_res = 0  
     with open(f"results/test_random_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
+        #res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
+        res.write(f"nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
+            
             for j in range(k):
                 seed = random.randint(0,1000000)
 
                 G = random_instance(i, seed, type, 2, 100)
                 
-                time_start = time.perf_counter()
+                """time_start = time.perf_counter()
                 space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
                 kr = kRandom(G, 1000)[1]
                 time_end = time.perf_counter()
@@ -80,7 +82,7 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 n_time += time_end - time_start
                 n_space += space_end - space_start
                 n_res += evaluate(G,n)
-                #print("nearest_neighbour")
+                #print("nearest_neighbour")"""
 
                 time_start = time.perf_counter()
                 space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0        
@@ -94,7 +96,7 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 
                 time_start = time.perf_counter()
                 space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
-                to = two_opt(G, np.random.permutation(kr.copy()))
+                to = two_opt(G, np.random.permutation(ne.copy()))
                 time_end = time.perf_counter()
                 space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
                 to_time += time_end - time_start
@@ -105,19 +107,25 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
 
                 time_start = time.perf_counter()
                 space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
-                tb = tabuSetup(G = G)
+                tb = tabuSetup(iterations=int(i/10), G = G)
                 time_end = time.perf_counter()
                 space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
                 tb_time += time_end - time_start
                 tb_space += space_end - space_start
                 tb_res += evaluate(G,tb)
 
-            res.write(f"{kr_res / k} {kr_time / k}   ")
-            res.write(f"{n_res / k} {n_time / k}    ")
+            #res.write(f"{kr_res / k} {kr_time / k}   ")
+            #res.write(f"{n_res / k} {n_time / k}    ")
             res.write(f"{ne_res / k} {ne_time / k}    ")
             res.write(f"{to_res / k} {to_time / k}    ")
             res.write(f"{tb_res / k} {tb_time / k}    ")
             res.write(f"{i}          \n") 
+            ne_res = 0
+            to_res = 0
+            tb_res = 0
+            ne_time = 0
+            to_time = 0
+            tb_time = 0
 
 
 def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
@@ -125,8 +133,11 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     ne_res = 0
     ne_time = 0
     to_res = 0  
+    tb_res = 0
+    tb_time = 0
+    tb_space = 0
     with open(f"results/test_random_time_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"kRandom_lenght        nNeighbour-ext_lenght    two-opt_lenght   n\n")
+        res.write(f"nNeighbour-ext_lenght two-opt_lenght   tabu_lenght n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -144,18 +155,21 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 ne_res += evaluate(G,ne)
                 #print("nearest_neighbour_extended")
 
-
-                kr = kRandom_time(G, ne_time)[1]
-                kr_res += evaluate(G,kr)
-                #print("kRandom")
-                to = two_opt_time(G, np.random.permutation(kr.copy()), ne_time)
+                to = two_opt_time(G, np.random.permutation(ne.copy()), ne_time*5)
                 to_res += evaluate(G,to)
+
+                tb = tabuSetup2(time=ne_time, G = G)
+                tb_res += evaluate(G,tb)
                 #print("two_opt")
 
-            res.write(f"{kr_res / k}    ")
+            
             res.write(f"{ne_res / k}     ")
             res.write(f"{to_res / k}     ")
+            res.write(f"{tb_res / k}    ")
             res.write(f"{i}          \n")
+            ne_res = 0
+            to_res = 0
+            tb_res = 0
 
 def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, tb = False, opt_val = None ,opt_path = None, n_start = False, kr_k = False, tb_size = 7, tb_iter = 100):
 
@@ -235,3 +249,36 @@ def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, 
     except OSError: print("fail")   
     
     plt.pyplot.savefig(f"{dir_path}/{problem_name}")
+
+def tabuListTest():
+
+    
+    
+    path = "tsp/ulysses22.tsp"
+    p = read(path)
+    G = p.get_graph()
+    alg = {}
+    res = []
+    index = []
+    for i in range(1, 51, 1):
+        tb = tabuSetup(iterations=200, size=i, G=G)
+        print(evaluate(G, tb), " ", i)
+        res.append(evaluate(G, tb))
+        index.append(i)
+
+    #plots parts
+    names = list(index)
+    values = list(res)
+ 
+    dir_path = os.getcwd() + f"/plots/tabuList"
+    try: os.mkdir(dir_path)
+    except OSError: print("fail")   
+    
+   
+    
+
+    plt.pyplot.plot(names, values)
+    plt.pyplot.suptitle("ulysses22")
+    plt.pyplot.savefig(f"{dir_path}/tabuList")          
+    plt.pyplot.clf() 
+

@@ -1,1 +1,0 @@
-kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n
