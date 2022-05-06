@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.14)  5 MAY 2022 23:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.14)  6 MAY 2022 10:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -526,27 +526,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 77--78
  []
 
 
-Overfull \hbox (25.63893pt too wide) in paragraph at lines 82--85
-\T1/cmr/m/n/10.95 bardzo podobnie do algorytmu two-opt, jednak wynika to z mo»liwo±ci manualnego
+Overfull \hbox (63.43047pt too wide) in paragraph at lines 82--85
+\T1/cmr/m/n/10.95 zwraca podobne wyniki jak algorytm two-opt. Zªo»ono±¢ obliczeniwa zaimplementowanego
  []
 
-[4 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dLen.png> </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dTime.png>]
+
 Overfull \hbox (27.34285pt too wide) in paragraph at lines 93--97
 \T1/cmr/m/n/10.95 instancji uruchamiany byª algorytm nearest neighbour extended, jego czasdziaªania
  []
 
-<timedSymetricLenght.png, id=37, 462.528pt x 346.896pt>
+[4 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dLen.png> </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dTime.png>]
+<timedSymetricLenght.png, id=40, 462.528pt x 346.896pt>
 File: timedSymetricLenght.png Graphic file (type png)
 <use timedSymetricLenght.png>
 Package pdftex.def Info: timedSymetricLenght.png  used on input line 102.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-<timedAsymetricLenght.png, id=38, 462.528pt x 346.896pt>
+<timedAsymetricLenght.png, id=41, 462.528pt x 346.896pt>
 File: timedAsymetricLenght.png Graphic file (type png)
 <use timedAsymetricLenght.png>
 Package pdftex.def Info: timedAsymetricLenght.png  used on input line 111.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-[5 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/timedSymetricLenght.png>]
-<timedEuc2dLenght.png, id=43, 462.528pt x 346.896pt>
+ [5 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/timedSymetricLenght.png>]
+<timedEuc2dLenght.png, id=46, 462.528pt x 346.896pt>
 File: timedEuc2dLenght.png Graphic file (type png)
 <use timedEuc2dLenght.png>
 Package pdftex.def Info: timedEuc2dLenght.png  used on input line 119.
@@ -561,18 +562,18 @@ Overfull \hbox (13.111pt too wide) in paragraph at lines 129--130
 \T1/cmr/m/n/10.95 W tym badaniu sprawdzimy jak prezentuj¡ si¦ wyniki tabu search w porównaniu
  []
 
-<berlin52.png, id=49, 462.528pt x 346.896pt>
+<berlin52.png, id=52, 462.528pt x 346.896pt>
 File: berlin52.png Graphic file (type png)
 <use berlin52.png>
 Package pdftex.def Info: berlin52.png  used on input line 135.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-<att48.png, id=50, 462.528pt x 346.896pt>
+<att48.png, id=53, 462.528pt x 346.896pt>
 File: att48.png Graphic file (type png)
 <use att48.png>
 Package pdftex.def Info: att48.png  used on input line 144.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
 [7 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/berlin52.png>]
-<ulysses22.png, id=56, 462.528pt x 346.896pt>
+<ulysses22.png, id=59, 462.528pt x 346.896pt>
 File: ulysses22.png Graphic file (type png)
 <use ulysses22.png>
 Package pdftex.def Info: ulysses22.png  used on input line 153.
@@ -582,30 +583,30 @@ Overfull \hbox (16.42546pt too wide) in paragraph at lines 163--167
 \T1/cmr/m/n/10.95 W tym badaniu sprawdzimy jak wielko±¢ listy tabu wpªywa na wynik. Testowane
  []
 
-<tabuListUlysses22.png, id=62, 462.528pt x 346.896pt>
+<tabuListUlysses22.png, id=65, 462.528pt x 346.896pt>
 File: tabuListUlysses22.png Graphic file (type png)
 <use tabuListUlysses22.png>
 Package pdftex.def Info: tabuListUlysses22.png  used on input line 173.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
-<tabuListUlysses16.png, id=63, 462.528pt x 346.896pt>
+<tabuListUlysses16.png, id=66, 462.528pt x 346.896pt>
 File: tabuListUlysses16.png Graphic file (type png)
 <use tabuListUlysses16.png>
 Package pdftex.def Info: tabuListUlysses16.png  used on input line 182.
 (pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
 [9 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/tabuListUlysses22.png>] [10 </home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/tabuListUlysses16.png>] (/home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/sprawozdanie2.aux) ) 
 Here is how much of TeX's memory you used:
- 23774 strings out of 483183
- 600174 string characters out of 5966291
+ 23779 strings out of 483183
+ 600258 string characters out of 5966291
  955157 words of memory out of 5000000
- 38366 multiletter control sequences out of 15000+600000
- 542686 words of font info for 50 fonts, out of 8000000 for 9000
+ 38371 multiletter control sequences out of 15000+600000
+ 543934 words of font info for 55 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  63i,7n,98p,814b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk>
-Output written on /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/sprawozdanie2.pdf (10 pages, 367969 bytes).
+ </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+Output written on /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/sprawozdanie2.pdf (10 pages, 389630 bytes).
 PDF statistics:
- 276 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
+ 287 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  83 words of extra memory for PDF output out of 10000 (max. 10000000)
 

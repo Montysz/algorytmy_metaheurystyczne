@@ -274,6 +274,11 @@ INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/spra
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dTime.png
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dTime.png
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/euc2dTime.png
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/timedSymetricLenght.png
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/timedSymetricLenght.png
 INPUT /home/pawel/Desktop/sem6/metacheurystyczne/algorytmy_metaheurystyczne/sprawozdanie2/timedSymetricLenght.png
@@ -305,3 +310,6 @@ INPUT /home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.60
 INPUT /home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk
 INPUT /home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk
 INPUT /home/pawel/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
