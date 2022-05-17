@@ -1,5 +1,3 @@
-
-import resource
 import time
 import random
 import numpy as np

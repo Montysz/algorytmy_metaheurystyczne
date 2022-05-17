@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import pylab
-import resource
 from algorithms import *
 from tests import *
 from problem import *

@@ -9,18 +9,11 @@ import numpy as np
 import sys
 import pylab
 #import cyth
-import resource
 from algorithms import *
 from tests import *
 from problem import *
 import os
 
-
-
-
-tabuListTest()
-
-exit()
 #test_random(type ="Symmetric",a = 10, b = 50, c = 5, k = 10)
 #test_random(type ="Asymmetric",a = 10, b = 50, c = 5, k = 10)
 #test_random(type ="EUC_2D",a = 10, b = 50, c = 5, k = 10)
@@ -107,4 +100,8 @@ def main():
 #test_random(type ="EUC_2D",a = 2, b = 100, c = 5, k = 10)
 #test_random()
 if __name__ == "__main__":
-    main()
+    name = "st70"
+    p = read("tsp/"+str(name)+".tsp")
+    G = p.get_graph()
+    print(distance_matrix(G))
+    #main()
