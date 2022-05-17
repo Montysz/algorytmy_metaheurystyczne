@@ -23,7 +23,7 @@ from problem import *
 import os
 import copy
 
-name = "ulysses16"
+name = "gr666"
 p = read("tsp/"+str(name)+".tsp")
 G = p.get_graph()
 dm = distance_matrix(G)
@@ -33,7 +33,7 @@ TOTAL_CHROMOSOME = len(dm[0])
 
 POPULATION_SIZE = len(dm[0]) * 20
 MAX_GENERATION = 10000
-MUTATION_RATE = 0.5
+MUTATION_RATE = 0.3
 
 def NN(A, start):
     path = [start]
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     all_fittest = []
     all_pop_size = []
     last_best = float('inf') 
-    no_progress = 0
+    no_progress = 1
     while generation != MAX_GENERATION:
         generation += 1
         print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}"
@@ -179,9 +179,9 @@ if __name__ == "__main__":
 
 
         best = get_fittest_genome(population).fitness
-        if(best > last_best): 
+        if(best < last_best): 
             last_best = best
-            no_progress = 0
+            no_progress = 1
         else:
             no_progress += 1
 
@@ -204,16 +204,31 @@ if __name__ == "__main__":
             print("Corwin")
             population = population[0:len(population) // 2]
 
-        if no_progress % 1000 == 0: 
-            print("xD")
-            print("xD")
-            print("xD")
-            print("xD")
+        if no_progress % 273 == 0:
+            print("run Two-opt")
+            genome = Genome()
+            genome.chromosome = two_opt(G, get_fittest_genome(population).chromosome.copy())
+            genome.fitness = evaluate(G, genome.chromosome)
 
-            #population = get_fittest_genome(population).chromosome
-            #population.append(i for i in [create_genome() for _ in range (POPULATION_SIZE)])
+            print("Val", genome.fitness)
+            population.append(genome)
+            genome = Genome()
+            genome.chromosome = two_opt(G,population[random.randint(0,len(population)-1)].chromosome.copy())
+            genome.fitness = evaluate(G, genome.chromosome)
+
+
+        if no_progress % 250 == 0: 
+            print("Kor win")
+            genome = Genome()
+            genome.chromosome = get_fittest_genome(population).chromosome
+            genome.fitness = get_fittest_genome(population).fitness
+            population = [genome]
+
+            for _ in range (POPULATION_SIZE):
+                population.append(create_genome())
 
         all_fittest.append(get_fittest_genome(population))
+
         all_pop_size.append(len(population))
     print(get_fittest_genome(population).fitness)
     print(len(get_fittest_genome(population).chromosome))
