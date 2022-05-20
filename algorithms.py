@@ -77,6 +77,25 @@ def two_opt(G, route):
         best[i] = best[i] + 1
     return best
 
+
+def two_opt2(G, route):
+    best = route
+    
+    Graph = distance_matrix(G)   
+    improved = True
+    while improved:
+        improved = False
+        for i in range(1, len(route)):
+            for j in range(i+2, len(route)):
+                new_route = route.copy()
+                new_route[i:j] = route[j-1:i-1:-1]
+                if cost(Graph, new_route) < cost(Graph, best):
+                    best = new_route
+                    improved = True
+        route = best
+  
+    return best
+
 def two_opt_time(G, route, t):
     best = route
     for i in range(len(best)):
@@ -95,6 +114,29 @@ def two_opt_time(G, route, t):
             break 
     for i in range(len(best)):
         best[i] = best[i] + 1
+    return best
+
+
+def two_opt_iter(G, route, it):
+    """
+        zwraca numerowane od 0 
+    """
+    best = route
+    #for i in range(len(best)):
+    #   best[i] = best[i] - 1
+    Graph = distance_matrix(G)   
+
+    index = 0
+    while it > index:
+        index += 1
+        for i in range(1, len(route)):
+            for j in range(i+2, len(route)):
+                new_route = route.copy()
+                new_route[i:j] = route[j-1:i-1:-1]
+                if cost(Graph, new_route) < cost(Graph, best):
+                    best = new_route
+        route = best
+    
     return best
 
 def kRandom_time(G, t):

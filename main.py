@@ -30,8 +30,14 @@ import os
 #test_random(type ="EUC_2D",a = 2, b = 100, c = 5, k = 10)
 #test_random()
 
+name = "ft70"
+#p = read("tsp/"+str(name)+".tsp")
+p = read("atsp/"+str(name)+".atsp")
+
+G = p.get_graph()
+
 '''
-name = "st70"
+name = "70"
 p = read("tsp/"+str(name)+".tsp")
 G = p.get_graph()
 
@@ -100,8 +106,8 @@ def main():
 #test_random(type ="EUC_2D",a = 2, b = 100, c = 5, k = 10)
 #test_random()
 if __name__ == "__main__":
-    name = "st70"
-    p = read("tsp/"+str(name)+".tsp")
+    name = "ft70"
+    p = read("atsp/"+str(name)+".atsp")
     G = p.get_graph()
-    print(distance_matrix(G))
-    #main()
+    #print(distance_matrix(G))
+    main()
