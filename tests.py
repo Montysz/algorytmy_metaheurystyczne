@@ -2,7 +2,9 @@ import time
 import random
 import numpy as np
 import os
-
+import resource
+from sympy import false
+from genetic import *
 from algorithms import *
 from problem import *
 
@@ -50,9 +52,12 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     tb_time = 0
     tb_space = 0
     tb_res = 0  
+    gen_time = 0
+    gen_space = 0
+    gen_res = 0
     with open(f"results/test_random_{type}_{a}-{b}.txt", "w") as res:
         #res.write(f"kRandom_lenght kRandom_time   nNeighbour_lenght nNeighbour_time   nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
-        res.write(f"nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   n\n")
+        res.write(f"nNeighbour-ext_lenght nNeighbour-ext_time   two-opt_lenght two-opt_time   tabu_lenght tabu_time   gen_lenght gen_time n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -112,11 +117,23 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 tb_space += space_end - space_start
                 tb_res += evaluate(G,tb)
 
+
+
+                time_start = time.perf_counter()
+                space_start = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                gen = genSetup(G = G, maxGen=int(i), mutationRate=0.3, popSize=0)
+                time_end = time.perf_counter()
+                space_end = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024.0/1024.0
+                gen_time += time_end - time_start
+                gen_space += space_end - space_start
+                gen_res += evaluate(G,gen)
+
             #res.write(f"{kr_res / k} {kr_time / k}   ")
             #res.write(f"{n_res / k} {n_time / k}    ")
             res.write(f"{ne_res / k} {ne_time / k}    ")
             res.write(f"{to_res / k} {to_time / k}    ")
             res.write(f"{tb_res / k} {tb_time / k}    ")
+            res.write(f"{gen_res / k} {gen_time / k}    ")
             res.write(f"{i}          \n") 
             ne_res = 0
             to_res = 0
@@ -124,6 +141,9 @@ def test_random(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
             ne_time = 0
             to_time = 0
             tb_time = 0
+            gen_time = 0
+            gen_space = 0
+            gen_res = 0
 
 
 def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
@@ -134,8 +154,9 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     tb_res = 0
     tb_time = 0
     tb_space = 0
+    gen_res = 0
     with open(f"results/test_random_time_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"nNeighbour-ext_lenght two-opt_lenght   tabu_lenght n\n")
+        res.write(f"nNeighbour-ext_lenght two-opt_lenght   tabu_lenght gen_lenght  n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -159,17 +180,21 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 tb = tabuSetup2(time=ne_time, G = G)
                 tb_res += evaluate(G,tb)
                 #print("two_opt")
+                gen = genTime(G=G, maxTime=ne_time, mutationRate=0.3, popSize=0)
+                gen_res += evaluate(G, gen)
 
             
             res.write(f"{ne_res / k}     ")
             res.write(f"{to_res / k}     ")
             res.write(f"{tb_res / k}    ")
+            res.write(f"{gen_res / k}    ")
             res.write(f"{i}          \n")
             ne_res = 0
             to_res = 0
             tb_res = 0
+            gen_res = 0
 
-def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, tb = False, opt_val = None ,opt_path = None, n_start = False, kr_k = False, tb_size = 7, tb_iter = 100):
+def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, tb = False, opt_val = None ,opt_path = None, n_start = False, kr_k = False, tb_size = 7, tb_iter = 100, gen = False, gen_iter = 100, gen_mut = 0.3, gen_pop = 0, gen_time = 0):
 
     
     dir_path = os.getcwd() + f"/tour_visual/{dir_name}"
@@ -202,6 +227,7 @@ def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, 
         solution_print(G, to.copy(),p, path=dir_path+"/"+problem_name+"_to-sol.png")
         solution_print(G, start_tour.copy(), p, path=dir_path+"/"+problem_name+"_to_start.png")
         alg['to']  = (evaluate(G, to))
+        print(alg['to'])
         if alg['opt']:
             print("to:", prdVal(alg['to'], alg['opt']))
 
@@ -232,7 +258,12 @@ def test_compare(path, dir_name, to = False, n = False, ne = False, kr = False, 
         alg['tb'] = (evaluate(G, tb))
         if alg['opt']:
             print("tabu:", prdVal(alg['tb'], alg['opt']))
-    
+    if gen:
+        gen = genSetup(path=path, maxGen=gen_iter, mutationRate=gen_mut, popSize=gen_pop)
+        solution_print(G, gen.copy(), p, path=dir_path+"/"+problem_name+"_gen-sol.png")
+        alg['gen'] = (evaluate(G, gen))
+        if alg['opt']:
+            print("Genetic:", prdVal(alg['gen'], alg['opt']))
     print(alg)
 
     #plots part
