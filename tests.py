@@ -156,7 +156,7 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
     tb_space = 0
     gen_res = 0
     with open(f"results/test_random_time_{type}_{a}-{b}.txt", "w") as res:
-        res.write(f"nNeighbour-ext_lenght two-opt_lenght   tabu_lenght gen_lenght  n\n")
+        res.write(f"two-opt_lenght   tabu_lenght gen_lenght  n\n")
 
         for i in range(a, b+1, c):
             print(f"{i}/{b}")
@@ -184,7 +184,6 @@ def test_random_time(type ="Symmetric",a = 3, b = 100, c = 1, k = 10):
                 gen_res += evaluate(G, gen)
 
             
-            res.write(f"{ne_res / k}     ")
             res.write(f"{to_res / k}     ")
             res.write(f"{tb_res / k}    ")
             res.write(f"{gen_res / k}    ")

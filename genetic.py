@@ -197,12 +197,12 @@ def genTime(path = "tsp/berlin52.tsp", G=None, maxTime = 100, mutationRate = 0.3
     while time.time() - start < MAX_TIME:
         generation += 1
         best = get_fittest_genome(population).fitness
-        if(best <  last_best):
-            print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}"
-                .format(generation, len(population), get_fittest_genome(population).fitness))
-        else:
-            print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}, no progress {3}"
-                .format(generation, len(population), get_fittest_genome(population).fitness, no_progress))
+        #if(best <  last_best):
+            #print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}"
+        #        .format(generation, len(population), get_fittest_genome(population).fitness))
+        #else:
+            #print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}, no progress {3}"
+        #        .format(generation, len(population), get_fittest_genome(population).fitness, no_progress))
         if(best < last_best): 
             last_best = best
             no_progress = 1
@@ -231,19 +231,19 @@ def genTime(path = "tsp/berlin52.tsp", G=None, maxTime = 100, mutationRate = 0.3
             if cur > r:
                 population.remove(genome)
         if no_progress % 25 == 0:  
-            print("Stagnation")
+            #print("Stagnation")
             pop = population.copy()
             pop.sort(key = lambda x: x.fitness, reverse=False)
             
             population = pop[0:len(pop) // 2]
 
         if no_progress % 273 == 0:
-            print("run Two-opt")
+            #print("run Two-opt")
             genome = Genome()
             genome.chromosome = two_opt2(G, get_fittest_genome(population).chromosome.copy())
             genome.fitness = eval_chromosome(genome.chromosome, dm)
 
-            print("Val", genome.fitness)
+            #print("Val", genome.fitness)
             population.append(genome)
             genome = Genome()
             genome.chromosome = two_opt2(G,population[random.randint(0,len(population)-1)].chromosome.copy())
@@ -251,7 +251,6 @@ def genTime(path = "tsp/berlin52.tsp", G=None, maxTime = 100, mutationRate = 0.3
 
 
         if no_progress % 250 == 0: 
-            print("Kor loss")
             genome = Genome()
             genome.chromosome = get_fittest_genome(population).chromosome
             genome.fitness = get_fittest_genome(population).fitness
@@ -263,17 +262,15 @@ def genTime(path = "tsp/berlin52.tsp", G=None, maxTime = 100, mutationRate = 0.3
         all_fittest.append(get_fittest_genome(population))
 
         all_pop_size.append(len(population))
-    print(get_fittest_genome(population).fitness)
-    for i in range(len(get_fittest_genome(population).chromosome)):
-        if i not in get_fittest_genome(population).chromosome:
-            print(i ,"error")
+    #print(get_fittest_genome(population).fitness)
+    #for i in range(len(get_fittest_genome(population).chromosome)):
+    #    if i not in get_fittest_genome(population).chromosome:
+            #print(i ,"error")
     tmp = get_fittest_genome(population).chromosome.copy()
     for i, _ in enumerate(tmp):
         tmp[i] += 1
-    print(tmp, "od 1")
+    ##print(tmp, "od 1")
     return tmp
-    print(len(get_fittest_genome(population).chromosome))
-    print(get_fittest_genome(population).chromosome, "od 0")
 
 
 
@@ -306,9 +303,9 @@ def main(path, G=None, maxGen = 100, mutationRate = 0.3, popSize = 0):
         if(best <  last_best):
             print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}"
                 .format(generation, len(population), get_fittest_genome(population).fitness))
-        else:
-            print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}, no progress {3}"
-                .format(generation, len(population), get_fittest_genome(population).fitness, no_progress))
+        #else:
+            ##print("Generation: {0} -- Population size: {1} -- Best Fitness: {2}, no progress {3}"
+            #    .format(generation, len(population), get_fittest_genome(population).fitness, no_progress))
         if(best < last_best): 
             last_best = best
             no_progress = 1
@@ -339,7 +336,7 @@ def main(path, G=None, maxGen = 100, mutationRate = 0.3, popSize = 0):
                 if(len(population)< len(dm)):
                     population.append(create_genome(dm))
         if no_progress % 25 == 0:  
-            print("Stagnation")
+            #print("Stagnation")
             pop = population.copy()
             pop.sort(key = lambda x: x.fitness, reverse=False)
             
@@ -348,12 +345,12 @@ def main(path, G=None, maxGen = 100, mutationRate = 0.3, popSize = 0):
                 population.append(create_genome(dm))
 
         if no_progress % 273 == 0:
-            print("run Two-opt")
+            #print("run Two-opt")
             genome = Genome()
             genome.chromosome = two_opt2(G, get_fittest_genome(population).chromosome.copy())
             genome.fitness = eval_chromosome(genome.chromosome, dm)
 
-            print("Val", genome.fitness)
+            #print("Val", genome.fitness)
             population.append(genome)
             genome = Genome()
             genome.chromosome = two_opt2(G,population[random.randint(0,len(population)-1)].chromosome.copy())
@@ -363,7 +360,6 @@ def main(path, G=None, maxGen = 100, mutationRate = 0.3, popSize = 0):
 
 
         if no_progress % 250 == 0: 
-            print("Kor loss")
             genome = Genome()
             genome.chromosome = get_fittest_genome(population).chromosome
             genome.fitness = get_fittest_genome(population).fitness
@@ -376,17 +372,16 @@ def main(path, G=None, maxGen = 100, mutationRate = 0.3, popSize = 0):
         all_fittest.append(get_fittest_genome(population))
 
         all_pop_size.append(len(population))
-    print(get_fittest_genome(population).fitness)
-    for i in range(len(get_fittest_genome(population).chromosome)):
-        if i not in get_fittest_genome(population).chromosome:
-            print(i ,"error")
+    #for i in range(len(get_fittest_genome(population).chromosome)):
+    #    if i not in get_fittest_genome(population).chromosome:
+            #print(i ,"error")
     tmp = get_fittest_genome(population).chromosome.copy()
     for i, _ in enumerate(tmp):
         tmp[i] += 1
-    print(tmp, "od 1")
+    #print(tmp, "od 1")
     return tmp
-    print(len(get_fittest_genome(population).chromosome))
-    print(get_fittest_genome(population).chromosome, "od 0")
+    #print(len(get_fittest_genome(population).chromosome))
+    #print(get_fittest_genome(population).chromosome, "od 0")
 
 if __name__ == "__main__":
     genTime(popSize=0, maxTime=10)
@@ -405,8 +400,8 @@ ref = 108159
 [39, 38, 36, 37, 18, 17, 16, 15, 74, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 75, 76, 1, 23, 22, 21, 25, 24, 46, 45, 44, 48, 47, 69, 68, 70, 67, 50, 49, 51, 66, 65, 71, 72, 73, 64, 63, 62, 61, 58, 57, 56, 55, 52, 53, 54, 42, 43, 28, 27, 26, 20, 19, 31, 30, 29, 32, 33, 35, 34, 40, 41, 60, 59] od 1
 76
 '''
-#print(p.comment)
-#print(eval_chromosome(our), "od 0")
-#print(f"{100*((eval_chromosome(our)-ref)/ref)}%")
+##print(p.comment)
+##print(eval_chromosome(our), "od 0")
+##print(f"{100*((eval_chromosome(our)-ref)/ref)}%")
 #best solution(by us): [0, 27, 5, 11, 8, 4, 25, 28, 2, 1, 20, 19, 9, 3, 14, 17, 16, 13, 21, 10, 18, 24, 6, 22, 26, 15, 12, 23, 7]
 #[20, 10, 4, 15, 18, 17, 14, 22, 11, 19, 25, 7, 23, 27, 16, 24, 8, 1, 28, 6, 12, 9, 5, 26, 0, 3, 2, 21, 13]

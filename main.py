@@ -87,6 +87,7 @@ def main():
         if "-kr_k" in  sys.argv: arg_dict['kr_k'] = int(sys.argv[sys.argv.index("-kr_k") + 1])
         if "-tb_size" in  sys.argv: arg_dict['tb_size'] = int(sys.argv[sys.argv.index("-tb_size") + 1])
         if "-tb_iter" in  sys.argv: arg_dict['tb_iter'] = int(sys.argv[sys.argv.index("-tb_iter") + 1])
+
         if "-gen_iter" in  sys.argv: arg_dict['gen_iter'] = int(sys.argv[sys.argv.index("-gen_iter") + 1])
         if "-gen_mut" in  sys.argv: arg_dict['gen_mut'] = int(sys.argv[sys.argv.index("-gen_mut") + 1])
         if "-gen_pop" in  sys.argv: arg_dict['gen_pop'] = int(sys.argv[sys.argv.index("-gen_pop") + 1])
@@ -96,14 +97,13 @@ def main():
         test_compare(**arg_dict)
     
 
-#python3 main.py compare -path tsp/att48.tsp -dir att48 -opt_val 12345 -to -n -ne -kr -tb
+#python3 main.py compare -path tsp/rat99.tsp -dir rat99 -opt_val 1211 -to -tb -gen -gen_iter 100 tb_iter 50
 #python3 main.py random -a 35 -b 40 -c 1 -k 10 -type Symmetric
 #python3 main.py compare -path tsp/att48.tsp -dir att48 -opt_val 10628 -to -ne -tb
 
 
 #test_all()
-test_random_time(type ="Symmetric",a = 10, b = 100, c = 10, k = 1)
-exit()
+
 #test_random_time(type ="Asymmetric",a = 2, b = 150, c = 5, k = 10)
 #test_random_time(type ="EUC_2D",a = 2, b = 150, c = 5, k = 10)
 
